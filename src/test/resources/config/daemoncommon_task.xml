@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean class="py.systemdaemon.bean.GetAllTasks" id="getAllTasks">
+    <property name="readFileTaskMap">
+      <map>
+        <entry key="task_1" value-ref="Coordinator"/>
+        <entry key="task_2" value-ref="System"/>
+        <entry key="task_3" value-ref="InfoCenter"/>
+        <entry key="task_4" value-ref="SystemDaemon"/>
+        <entry key="task_5" value-ref="DIH"/>
+        <entry key="task_6" value-ref="DataNode"/>
+        <entry key="task_7" value-ref="GCLog"/>
+        <entry key="task_8" value-ref="ConsoleErrorLog"/>
+        <entry key="task_9" value-ref="ControlCenterErrorLog"/>
+        <entry key="task_10" value-ref="InfoCenterErrorLog"/>
+        <entry key="task_11" value-ref="DatanodeErrorLog"/>
+        <entry key="task_12" value-ref="MonitorServerErrorLog"/>
+        <entry key="task_13" value-ref="SystemDaemonErrorLog"/>
+        <entry key="task_14" value-ref="ArbiterErrorLog"/>
+        <entry key="task_15" value-ref="DriverContainerErrorLog"/>
+        <entry key="task_16" value-ref="DIHErrorLog"/>
+        <entry key="task_17" value-ref="CoordinatorErrorLog"/>
+        <entry key="task_18" value-ref="DeploymentDamonErrorLog"/>
+        <entry key="task_19" value-ref="FSServerErrorLog"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="Coordinator">
+    <property name="uniqueName" value="Coordinator"/>
+    <property name="applicationName" value="Coordinator"/>
+    <property name="readFilesPath" value="/tmp/testing/EventData/Coordinator"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="EVENTDATA"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <!-- this is a map contains regex and the add info -->
+    <property name="filterRegexMap">
+      <map>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="System">
+    <property name="uniqueName" value="System"/>
+    <property name="applicationName" value="System"/>
+    <property name="readFilesPath" value="/tmp/log/messages"/>
+    <property name="readFilesPathFormat" value="FIX"/>
+    <property name="recordFilePath" value="/tmp/testing/RecordFile/SystemDaemon"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <property name="filterRegexMap">
+      <map>
+        <entry key="DISK_STATUS">
+          <list>
+            <value>.*?kernel: sd.*?Synchronizing SCSI cache.*?</value>
+          </list>
+        </entry>
+        <entry key="NETWORK_STATUS">
+          <list>
+            <value>.*?kernel:.*(ix?gb)?.*NIC Link is Down</value>
+          </list>
+        </entry>
+
+        <entry key="PYD_QUEUE_IO_DELAY">
+          <list>
+            <value>.*?kernel:.*pyd.*wait replying of some I/O.*</value>
+          </list>
+        </entry>
+        <entry key="PYD_IO_DELAY">
+          <list>
+            <value>.*?kernel:.*pyd.*Found an delayed IO.*</value>
+          </list>
+        </entry>
+        <entry key="PYD_IO_TIMEOUT">
+          <list>
+            <value>.*?kernel:.*pyd.*Found an IO was timed out.*</value>
+          </list>
+        </entry>
+
+        <entry key="ISCSI_ABORT_TASK">
+          <list>
+            <value>.*?kernel:.*ABORT_TASK.*</value>
+          </list>
+        </entry>
+        <entry key="ISCSI_ACCESS_LUN">
+          <list>
+            <value>.*?kernel:.*Detected NON_EXISTENT_LUN Access for.*</value>
+          </list>
+        </entry>
+        <entry key="ISCSI_LOGIN_TIMEOUT">
+          <list>
+            <value>.*?kernel:.*iSCSI Login timeout on Network Portal.*</value>
+          </list>
+        </entry>
+        <entry key="ISCSI_LOGIN_NEGOTIATION_FAILED">
+          <list>
+            <value>.*?kernel:.*iSCSI Login negotiation failed.*</value>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="InfoCenter">
+    <property name="uniqueName" value="InfoCenter"/>
+    <property name="applicationName" value="InfoCenter"/>
+    <property name="readFilesPath" value="/tmp/testing/EventData/InfoCenter"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="EVENTDATA"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <!-- this is a map contains regex and the add info -->
+    <property name="filterRegexMap">
+      <map>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="SystemDaemon">
+    <property name="uniqueName" value="SystemDaemon"/>
+    <property name="applicationName" value="SystemDaemon"/>
+    <property name="readFilesPath" value="/tmp/testing/EventData/SystemDaemon"/>
+    <property name="recordFilePath" value="/tmp/testing/RecordFile/SystemDaemon"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="EVENTDATA"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <property name="filterRegexMap">
+      <map>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DIH">
+    <property name="uniqueName" value="DIH"/>
+    <property name="applicationName" value="DIH"/>
+    <property name="readFilesPath" value="/tmp/testing/EventData/DIH"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="EVENTDATA"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <property name="filterRegexMap">
+      <map>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DataNode">
+    <property name="uniqueName" value="DataNode"/>
+    <property name="applicationName" value="DataNode"/>
+    <property name="readFilesPath" value="/tmp/testing/EventData/DataNode"/>
+    <property name="maxReadChar" value="1000"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="EVENTDATA"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <!--<property name="sendEventDataMethod" value="SENDEVENTDATA2MONITORSERVER" />-->
+    <property name="filterRegexMap">
+      <map>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="GCLog">
+    <property name="uniqueName" value="GCLog"/>
+    <property name="applicationName" value="Datanode"/>
+    <property name="readFilesPath" value="logs/gc\..*\.current"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="latestTime">
+      <bean class="py.systemdaemon.task.ReadEventDataTask$LatestTime">
+        <property name="needRecord" value="true"/>
+        <property name="regex">
+          <value>([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])T([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+          </value>
+        </property>
+        <property name="format" value="yyyy-MM-dd'T'HH:mm:ss"/>
+      </bean>
+    </property>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="DATANODE_GC_TIME">
+          <list>
+            <value>.*?Times:.*real=([0-9]*\.[0-9]*)\s*secs.*</value>
+          </list>
+        </entry>
+        <entry key="DATANODE_MEMORY_USAGE">
+          <list>
+            <value>
+              .*?Eden:.*Heap:\s+([0-9]+.[0-9]+)(G|M|K|B)\(([0-9]+.[0-9]+)(G|M|K|B)\)->([0-9]+.[0-9]+)(G|M|K|B)\(([0-9]+.[0-9]+)(G|M|K|B)\).*
+            </value>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="ConsoleErrorLog">
+    <property name="uniqueName" value="ConsoleErrorLog"/>
+    <property name="applicationName" value="Console"/>
+    <property name="readFilesPath" value="logs/console.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="ControlCenterErrorLog">
+    <property name="uniqueName" value="ControlCenterErrorLog"/>
+    <property name="applicationName" value="ControlCenter"/>
+    <property name="readFilesPath" value="logs/controlcenter.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="InfoCenterErrorLog">
+    <property name="uniqueName" value="InfoCenterErrorLog"/>
+    <property name="applicationName" value="InfoCenter"/>
+    <property name="readFilesPath" value="logs/infocenter.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DatanodeErrorLog">
+    <property name="uniqueName" value="DatanodeErrorLog"/>
+    <property name="applicationName" value="DataNode"/>
+    <property name="readFilesPath" value="logs/datanode.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="MonitorServerErrorLog">
+    <property name="uniqueName" value="MonitorServerErrorLog"/>
+    <property name="applicationName" value="MonitorServer"/>
+    <property name="readFilesPath" value="logs/monitorserver.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="SystemDaemonErrorLog">
+    <property name="uniqueName" value="SystemDaemonErrorLog"/>
+    <property name="applicationName" value="SystemDaemon"/>
+    <property name="readFilesPath" value="logs/systemdaemon.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="ArbiterErrorLog">
+    <property name="uniqueName" value="ArbiterErrorLog"/>
+    <property name="applicationName" value="Arbiter"/>
+    <property name="readFilesPath" value="logs/arbiter.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DriverContainerErrorLog">
+    <property name="uniqueName" value="DriverContainerErrorLog"/>
+    <property name="applicationName" value="DriverContainer"/>
+    <property name="readFilesPath" value="logs/drivercontainer.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DIHErrorLog">
+    <property name="uniqueName" value="DIHErrorLog"/>
+    <property name="applicationName" value="DIH"/>
+    <property name="readFilesPath" value="logs/instansehub.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="CoordinatorErrorLog">
+    <property name="uniqueName" value="CoordinatorErrorLog"/>
+    <property name="applicationName" value="coordinator"/>
+    <property name="readFilesPath" value="logs/coordinator.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="DeploymentDamonErrorLog">
+    <property name="uniqueName" value="DeploymentDamonErrorLog"/>
+    <property name="applicationName" value="DeploymentDamon"/>
+    <property name="readFilesPath" value="logs/deployment-daemon.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.systemdaemon.task.ReadEventDataTask" id="FSServerErrorLog">
+    <property name="uniqueName" value="FSServerErrorLog"/>
+    <property name="applicationName" value="FSServer"/>
+    <property name="readFilesPath" value="logs/fsserver.log"/>
+    <property name="readFilesPathFormat" value="REGEX_SERVICE"/>
+    <property name="readFileLarge" value="true"/>
+    <property name="readLatestSize" value="1048576"/>
+    <property name="maxReadChar" value="1048576"/>
+    <property name="initDelay" value="1000"/>
+    <property name="readFormat" value="REGEX"/>
+    <property name="wrapFormat" value="EVENTDATA"/>
+    <property name="sendEventDataMethod" value="SENDEVENTDATA2DBSMONITORSERVER"/>
+    <property name="filterRegexMap">
+      <map>
+        <entry key="ERROR_LOG">
+          <list>
+            <value>^ERROR\s*\[.*</value>
+          </list>
+        </entry>
+
+        <!-- all counterName above, must check time is larger then SystemDaemon start time -->
+        <entry key="*Time must larger then the service start time">
+          <list>
+            <value>Time</value>
+            <!--
+                1.the time buf index of the string which match regex above e.g. 6~9 means the buffer index from 6 to 9 is time, the index start from 0
+                2.regex express of the buffer
+            -->
+            <value>
+              ([1-9][0-9]{3})-([0-9][0-9])-([0-9][0-9])\s+([0-9][0-9]):([0-9][0-9]):([0-9][0-9])
+            </value>
+            <value>yyyy-MM-dd HH:mm:ss
+            </value><!-- format, we supposed that if the value< a year's second,we think it doesn't contain year value-->
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+
+</beans>

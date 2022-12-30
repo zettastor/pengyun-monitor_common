@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+  <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"
+    id="dataSource">
+    <!--<property name="driverClass" value="org.postgresql.Driver"/>-->
+    <!--<property name="jdbcUrl" value="jdbc:postgresql://192.168.2.55:5432/monitorserverdb"/>-->
+    <property name="driverClass" value="${jdbc.driver.class}"/>
+    <property name="jdbcUrl" value="${jdbc.url}"/>
+    <property name="user" value="${jdbc.user}"/>
+    <property name="password" value="${jdbc.password}"/>
+
+    <property name="initialPoolSize" value="${jdbc.initial.pool.size}"/>
+    <!-- NOTE! When adjusting poolsize, also adjust them in the 'hibernateProperties' -->
+    <property name="minPoolSize" value="${jdbc.min.pool.size}"/>
+    <property name="maxPoolSize" value="${jdbc.max.pool.size}"/>
+
+    <property name="acquireIncrement" value="5"/>
+    <property name="acquireRetryAttempts" value="1200"/>
+    <property name="acquireRetryDelay" value="1000"/>
+    <property name="checkoutTimeout" value="300000"/>
+    <property name="idleConnectionTestPeriod" value="180"/>
+    <property name="maxIdleTime" value="0"/>
+    <property name="maxIdleTimeExcessConnections" value="0"/>
+    <property name="maxStatements" value="0"/>
+    <property name="maxStatementsPerConnection" value="25"/>
+    <property name="numHelperThreads" value="6"/>
+    <property name="preferredTestQuery" value="SELECT 1"/>
+    <property name="testConnectionOnCheckin" value="true"/>
+    <property name="testConnectionOnCheckout" value="false"/>
+  </bean>
+  <!-- 定义数据库连接池数据源bean destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用 -->
+  <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+    id="sessionFactory">
+    <property name="dataSource" ref="dataSource"/>
+
+    <property name="hibernateProperties">
+      <value>
+        <!-- 设置数据库方言 -->
+        <!--hibernate.dialect=py.db.sqlite.dialect.PostgresCustomDialect-->
+        hibernate.dialect=py.db.sqlite.dialect.H2DialectCustom
+        hibernate.hbm2ddl.auto=update
+        <!-- 是否在控制台显示sql -->
+        hibernate.show_sql=false
+        <!-- 是否格式化sql，优化显示 -->
+        hibernate.format_sql=true
+        <!-- 是否开启二级缓存 -->
+        hibernate.cache.use_second_level_cache=false
+        <!-- 是否开启查询缓存 -->
+        hibernate.cache.use_query_cache=false
+        <!-- 数据库批量查询最大数 -->
+        hibernate.jdbc.fetch_size=50
+        <!-- 数据库批量更新、添加、删除操作最大数 -->
+        hibernate.jdbc.batch_size=50
+        <!-- 是否自动提交事务 -->
+        hibernate.connection.autocommit=true
+        <!-- 指定hibernate在何时释放JDBC连接 -->
+        hibernate.connection.release_mode=auto
+        <!-- hibernate.jdbc.use_streams_for_binary=true -->
+        <!-- 创建session方式 hibernate5.x 的方式 -->
+        hibernate.current_session_context_class=org.springframework.orm.hibernate5.SpringSessionContext
+        <!-- javax.persistence.validation.mode默认情况下是auto的，就是说如果不设置的话它是会自动去你的classpath下面找一个bean-validation**包 
+            所以把它设置为none即可 -->
+        javax.persistence.validation.mode=none
+      </value>
+    </property>
+    <property name="mappingResources">
+      <list>
+        <value>hibernate-config/alert_message.hbm.xml</value>
+        <value>hibernate-config/alert_rule.hbm.xml</value>
+        <value>hibernate-config/alert_template.hbm.xml</value>
+        <value>hibernate-config/eventlog_message.hbm.xml</value>
+        <value>hibernate-config/eventlog_message_hour.hbm.xml</value>
+        <value>hibernate-config/eventlog_message_day.hbm.xml</value>
+        <value>hibernate-config/eventlog_message_month.hbm.xml</value>
+        <value>hibernate-config/snmp_forward_item.hbm.xml</value>
+        <value>hibernate-config/email_forward_item.hbm.xml</value>
+        <value>hibernate-config/message_forward_item.hbm.xml</value>
+        <value>hibernate-config/smtp_item.hbm.xml</value>
+        <value>hibernate-config/eventlog_info.hbm.xml</value>
+        <value>hibernate-config/performance_search_template.hbm.xml</value>
+        <value>hibernate-config/dto_user.hbm.xml</value>
+        <value>hibernate-config/dto_sender_log.hbm.xml</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+    id="transactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+  <!-- 定义事务管理 -->
+  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+  <!-- 定义 Autowired  自动注入 bean -->
+  <context:property-placeholder location="classpath:config/monitordb.properties"/>
+
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>

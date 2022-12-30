@@ -1,0 +1,216 @@
+ZZ-MIB DEFINITIONS ::= BEGIN
+	IMPORTS
+		enterprises
+            FROM RFC1155-SMI			
+        Integer32
+            FROM SNMPv2-SMI            
+        DisplayString
+            FROM SNMPv2-TC;
+  
+  	ZZ OBJECT IDENTIFIER ::= {enterprises 20229}
+  
+	ZZAlertInfoTable OBJECT-TYPE
+		SYNTAX  		SEQUENCE OF ZZAlertInfoEntry 
+  		MAX-ACCESS		not-accessible
+  		STATUS 			current
+  		DESCRIPTION 
+  		"
+  		This is ZZ alert info table.
+  		"		
+        ::= {ZZ 1}
+
+    ZZAlertItemAcknowledge OBJECT-TYPE
+		SYNTAX		Integer32  {
+		        		     true(1),
+		        		     false(0)
+					}
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+			"
+			"                  
+		::= { ZZ 2 }	
+
+	ZZAlertItemObjectName OBJECT-TYPE
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZ 3}
+
+	ZZAlertItemDescription OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZ 4}
+
+	ZZAlertItemLevel OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZ 5}
+
+	ZZAlertItemType OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZ 6}
+
+	ZZAlertItemRuleName OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZ 7}
+
+
+
+  
+  	ZZAlertInfoEntry OBJECT-TYPE 
+  		SYNTAX   	ZZAlertInfoEntry 
+  		MAX-ACCESS  not-accessible    
+  		STATUS 		current
+  		DESCRIPTION
+  		"
+  		This is alert info entry.
+  		"     
+  		INDEX 		{Index}	            
+  		::= {ZZAlertInfoTable 1}   
+  		
+	ZZAlertInfoEntry ::= SEQUENCE {
+	    Index 	     	Integer32,	
+	    Id 			 	DisplayString,	
+	    ObjectName   	DisplayString,
+	    Description  	DisplayString,
+	    Level        	Integer32,
+	    Acknowledge  	Integer32,
+	    Type         	DisplayString,
+	    RuleName	    DisplayString,
+	    FirstOccureTime			DisplayString,
+	    LastOccureTime			DisplayString,
+	    Frequency       DisplayString
+	}
+	
+	Index OBJECT-TYPE 
+		SYNTAX 			Integer32
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 1}
+
+	Id OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 2}
+				
+	ObjectName OBJECT-TYPE
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 3}
+
+	Description OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 4}
+
+	Level OBJECT-TYPE 
+		SYNTAX 			Integer32  {
+                            CRITICAL(0),
+                            MAJOR(1),
+                            MINOR(2),
+                            WARNING(3),
+                            CLEARED(4)
+                        }
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 5}
+
+	Acknowledge OBJECT-TYPE
+		SYNTAX 			Integer32  {
+		        		     true(1),
+		        		     false(2)
+				}
+		MAX-ACCESS		read-write
+		STATUS			current
+		DESCRIPTION
+		"
+		"
+		::= {ZZAlertInfoEntry 6}
+
+	Type OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 7}
+
+	RuleName OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 8}
+
+	FirstOccureTime OBJECT-TYPE 
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION 
+		"
+		"
+		::= {ZZAlertInfoEntry 9}
+
+    LastOccureTime OBJECT-TYPE
+        SYNTAX 			DisplayString
+        MAX-ACCESS		read-only
+        STATUS			current
+        DESCRIPTION
+        "
+        "
+        ::= {ZZAlertInfoEntry 10}
+
+	Frequency OBJECT-TYPE
+		SYNTAX 			DisplayString
+		MAX-ACCESS		read-only
+		STATUS			current
+		DESCRIPTION
+		"
+		"
+		::= {ZZAlertInfoEntry 11}
+	
+
+END

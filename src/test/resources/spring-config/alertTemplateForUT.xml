@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean class="py.monitor.common.AlertTemplate" id="defaultAlertTemplate">
+    <property name="id" value="3942728447147806715"/>
+    <property name="name" value="默认告警模板"/>
+    <property name="sourceId" value="defaultSourceId"/>
+    <property name="alertRuleMap">
+      <map>
+        <entry key="CPU" value-ref="CPU"/>
+        <entry key="MEMORY" value-ref="MEMORY"/>
+
+        <entry key="SERVICE_STATUS" value-ref="SERVICE_STATUS"/>
+        <entry key="SERVERNODE_STATUS" value-ref="SERVERNODE_STATUS"/>
+
+        <entry key="DISK_STATUS" value-ref="DISK_STATUS"/>
+        <entry key="TRACK_STATUS" value-ref="TRACK_STATUS"/>
+        <entry key="DISK_TEMPERATURE" value-ref="DISK_TEMPERATURE"/>
+
+        <entry key="DATANODE_IO_DELAY" value-ref="DATANODE_IO_DELAY"/>
+        <entry key="NETWORK_STATUS" value-ref="NETWORK_STATUS"/>
+        <entry key="NETCARD_DELAY" value-ref="NETCARD_DELAY"/>
+
+        <entry key="NETCARD_RX_DROPPED" value-ref="NETCARD_RX_DROPPED"/>
+        <entry key="NETCARD_TX_DROPPED" value-ref="NETCARD_TX_DROPPED"/>
+        <entry key="NETCARD_RX_ERRORS" value-ref="NETCARD_RX_ERRORS"/>
+        <entry key="NETCARD_TX_ERRORS" value-ref="NETCARD_TX_ERRORS"/>
+
+        <entry key="STORAGEPOOL_FREE_SPACE_RATIO" value-ref="STORAGEPOOL_FREE_SPACE_RATIO"/>
+        <entry key="STORAGEPOOL_AVAILABLE_PSA_SEGMENT_COUNT"
+          value-ref="STORAGEPOOL_AVAILABLE_PSA_SEGMENT_COUNT"/>
+        <entry key="STORAGEPOOL_AVAILABLE_PSS_SEGMENT_COUNT"
+          value-ref="STORAGEPOOL_AVAILABLE_PSS_SEGMENT_COUNT"/>
+        <entry key="STORAGEPOOL_VOLUME_AMOUNT" value-ref="STORAGEPOOL_VOLUME_AMOUNT"/>
+        <entry key="STORAGEPOOL_GROUP_AMOUNT" value-ref="STORAGEPOOL_GROUP_AMOUNT"/>
+        <entry key="STORAGEPOOL_LOST_DISK" value-ref="STORAGEPOOL_LOST_DISK"/>
+        <entry key="STORAGEPOOL_REBUILD_FAIL" value-ref="STORAGEPOOL_REBUILD_FAIL"/>
+
+        <entry key="VOLUME_READ_LATENCY" value-ref="VOLUME_READ_LATENCY"/>
+        <entry key="VOLUME_WRITE_LATENCY" value-ref="VOLUME_WRITE_LATENCY"/>
+
+        <entry key="PYD_QUEUE_IO_DELAY" value-ref="PYD_QUEUE_IO_DELAY"/>
+        <entry key="PYD_IO_DELAY" value-ref="PYD_IO_DELAY"/>
+        <entry key="PYD_IO_TIMEOUT" value-ref="PYD_IO_TIMEOUT"/>
+
+        <entry key="ISCSI_ABORT_TASK" value-ref="ISCSI_ABORT_TASK"/>
+        <entry key="ISCSI_ACCESS_LUN" value-ref="ISCSI_ACCESS_LUN"/>
+        <entry key="ISCSI_LOGIN_TIMEOUT" value-ref="ISCSI_LOGIN_TIMEOUT"/>
+        <entry key="ISCSI_LOGIN_NEGOTIATION_FAILED" value-ref="ISCSI_LOGIN_NEGOTIATION_FAILED"/>
+
+        <entry key="DATANODE_REQUEST_QUEUE_LENGTH" value-ref="DATANODE_REQUEST_QUEUE_LENGTH"/>
+        <entry key="DATANODE_GC_TIME" value-ref="DATANODE_GC_TIME"/>
+        <entry key="DATANODE_MEMORY_USAGE" value-ref="DATANODE_MEMORY_USAGE"/>
+
+        <entry key="SERVICE_SUB_TASK_COUNT" value-ref="SERVICE_SUB_TASK_COUNT"/>
+        <entry key="SERVICE_HANDLE_COUNT" value-ref="SERVICE_HANDLE_COUNT"/>
+
+        <entry key="ERROR_LOG" value-ref="ERROR_LOG"/>
+      </map>
+    </property>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="MEMORY">
+    <property name="name" value="内存使用率"/>
+    <property name="description"
+      value="内存使用率超过告警阈值"/>
+    <property name="counterKey" value="MEMORY"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="99"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="50"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="CPU">
+    <property name="name" value="CPU使用率"/>
+    <property name="description"
+      value="CPU使用率超过告警阈值"/>
+    <property name="counterKey" value="CPU"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="99"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="50"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DISK_STATUS">
+    <property name="name" value="磁盘状态"/>
+    <property name="description"
+      value="磁盘状态异常, 可能被拔"/>
+    <property name="counterKey" value="DISK_STATUS"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="SERVICE_STATUS">
+    <property name="name" value="服务状态"/>
+    <property name="description"
+      value="服务状态异常"/>
+    <property name="counterKey" value="SERVICE_STATUS"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="SERVERNODE_STATUS">
+    <property name="name" value="服务器节点状态"/>
+    <property name="description"
+      value="服务器状态异常, 可能掉电"/>
+    <property name="counterKey" value="SERVERNODE_STATUS"/>
+    <property name="alertLevelOne" value="CRITICAL"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="VOLUME_READ_LATENCY">
+    <property name="name" value="卷读延迟"/>
+    <property name="description"
+      value="卷读延迟大于告警阈值"/>
+    <property name="counterKey" value="VOLUME_READ_LATENCY"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="1000"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="500"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="VOLUME_WRITE_LATENCY">
+    <property name="name" value="卷写延迟"/>
+    <property name="description"
+      value="卷写延迟大于告警阈值"/>
+    <property name="counterKey" value="VOLUME_WRITE_LATENCY"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="1000"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="500"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_FREE_SPACE_RATIO">
+    <property name="name" value="存储池剩余空间百分比"/>
+    <property name="description"
+      value="存储池剩余空间百分比小于告警阈值"/>
+    <property name="counterKey" value="STORAGEPOOL_FREE_SPACE_RATIO"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="20"/>
+    <property name="relationOperator" value="LT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="30"/>
+    <property name="alertRecoveryRelationOperator" value="GT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_AVAILABLE_PSS_SEGMENT_COUNT">
+    <property name="name" value="存储池可用PSS segment个数"/>
+    <property name="description"
+      value="存储池可用PSS segment数目小于告警阈值"/>
+    <property name="counterKey" value="STORAGEPOOL_AVAILABLE_PSS_SEGMENT_COUNT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="1"/>
+    <property name="relationOperator" value="LT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="3"/>
+    <property name="alertRecoveryRelationOperator" value="EGT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_AVAILABLE_PSA_SEGMENT_COUNT">
+    <property name="name" value="存储池可用PSA segment个数"/>
+    <property name="description"
+      value="存储池可用PSA segment数目小于告警阈值"/>
+    <property name="counterKey" value="STORAGEPOOL_AVAILABLE_PSA_SEGMENT_COUNT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="1"/>
+    <property name="relationOperator" value="LT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="1"/>
+    <property name="alertRecoveryRelationOperator" value="EGT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_VOLUME_AMOUNT">
+    <property name="name" value="存储池卷数量"/>
+    <property name="description"
+      value="存储池卷数量超过告警阈值"/>
+    <property name="counterKey" value="STORAGEPOOL_VOLUME_AMOUNT"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertLevelOneThreshold" value="10"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="10"/>
+    <property name="alertRecoveryRelationOperator" value="ELT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_LOST_DISK">
+    <property name="name" value="存储池磁盘丢失"/>
+    <property name="description"
+      value="存储池磁盘丢失"/>
+    <property name="counterKey" value="STORAGEPOOL_LOST_DISK"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_REBUILD_FAIL">
+    <property name="name" value="存储池重构失败"/>
+    <property name="description"
+      value="存储池重构失败"/>
+    <property name="counterKey" value="STORAGEPOOL_REBUILD_FAIL"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="STORAGEPOOL_GROUP_AMOUNT">
+    <property name="name" value="存储池组数量"/>
+    <property name="description"
+      value="存储池组数量小于告警阈值"/>
+    <property name="counterKey" value="STORAGEPOOL_GROUP_AMOUNT"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertLevelOneThreshold" value="3"/>
+    <property name="relationOperator" value="LT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="3"/>
+    <property name="alertRecoveryRelationOperator" value="EGT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="TRACK_STATUS">
+    <property name="name" value="磁道状态"/>
+    <property name="description"
+      value="磁道状态异常"/>
+    <property name="counterKey" value="TRACK_STATUS"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DISK_TEMPERATURE">
+    <property name="name" value="磁盘温度"/>
+    <property name="description"
+      value="磁盘温度超过告警阈值"/>
+    <property name="counterKey" value="DISK_TEMPERATURE"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertLevelOneThreshold" value="55"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="50"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETCARD_RX_DROPPED">
+    <property name="name" value="网卡接收丢包率"/>
+    <property name="description"
+      value="网络下行丢包计数达到告警阈值"/>
+    <property name="counterKey" value="NETCARD_RX_DROPPED"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="80"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="10"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="60"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETCARD_TX_DROPPED">
+    <property name="name" value="网卡转发丢包率"/>
+    <property name="description"
+      value="网络上行丢包计数达到告警阈值"/>
+    <property name="counterKey" value="NETCARD_TX_DROPPED"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="80"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="10"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="60"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETCARD_RX_ERRORS">
+    <property name="name" value="网卡接收错误"/>
+    <property name="description"
+      value="网络下行错误计数达到告警阈值"/>
+    <property name="counterKey" value="NETCARD_RX_ERRORS"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="80"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="10"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="60"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETCARD_TX_ERRORS">
+    <property name="name" value="网卡转发错误"/>
+    <property name="description"
+      value="网络上行错误计数达到告警阈值"/>
+    <property name="counterKey" value="NETCARD_TX_ERRORS"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <property name="alertLevelOneThreshold" value="80"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="10"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="60"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETCARD_DELAY">
+    <property name="name" value="网络延迟"/>
+    <property name="description"
+      value="主机间有网络延迟"/>
+    <property name="counterKey" value="NETCARD_DELAY"/>
+    <property name="alertLevelOne" value="WARNING"/>
+    <!-- time unit is um -->
+    <property name="alertLevelOneThreshold" value="200000"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="1"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="20000"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DATANODE_IO_DELAY">
+    <property name="name" value="DataNode IO 延迟"/>
+    <property name="description"
+      value="DataNode IO 延迟异常"/>
+    <property name="counterKey" value="DATANODE_IO_DELAY"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertLevelOneThreshold" value="1000"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="800"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="NETWORK_STATUS">
+    <property name="name" value="网卡状态"/>
+    <property name="description"
+      value="网卡异常, 可能网线被拔"/>
+    <property name="counterKey" value="NETWORK_STATUS"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="PYD_QUEUE_IO_DELAY">
+    <property name="name" value="PYD队列IO延迟"/>
+    <property name="description"
+      value="PYD所有队列IO延迟1s"/>
+    <property name="counterKey" value="PYD_QUEUE_IO_DELAY"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="PYD_IO_DELAY">
+    <property name="name" value="PYD IO延迟"/>
+    <property name="description"
+      value="PYD IO延迟4s"/>
+    <property name="counterKey" value="PYD_IO_DELAY"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="PYD_IO_TIMEOUT">
+    <property name="name" value="PYD IO超时"/>
+    <property name="description"
+      value="PYD IO超时"/>
+    <property name="counterKey" value="PYD_IO_TIMEOUT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="ISCSI_ABORT_TASK">
+    <property name="name" value="ISCSI中止任务"/>
+    <property name="description"
+      value="ISCSI中止任务"/>
+    <property name="counterKey" value="ISCSI_ABORT_TASK"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="ISCSI_ACCESS_LUN">
+    <property name="name" value="ISCSI访问LUN"/>
+    <property name="description"
+      value="ISCSI无法访问LUN"/>
+    <property name="counterKey" value="ISCSI_ACCESS_LUN"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="ISCSI_LOGIN_TIMEOUT">
+    <property name="name" value="ISCSI登录超时"/>
+    <property name="description"
+      value="ISCSI登录超时"/>
+    <property name="counterKey" value="ISCSI_LOGIN_TIMEOUT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="ISCSI_LOGIN_NEGOTIATION_FAILED">
+    <property name="name" value="ISCSI登录协商失败"/>
+    <property name="description"
+      value="ISCSI登录协商失败"/>
+    <property name="counterKey" value="ISCSI_LOGIN_NEGOTIATION_FAILED"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DATANODE_REQUEST_QUEUE_LENGTH">
+    <property name="name" value="DataNode请求队列长度"/>
+    <property name="description"
+      value="DataNode请求队列长度大于告警阈值"/>
+    <property name="counterKey" value="DATANODE_REQUEST_QUEUE_LENGTH"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="800"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="300"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DATANODE_GC_TIME">
+    <property name="name" value="DataNode GC时间"/>
+    <property name="description"
+      value="DataNode GC时间大于告警阈值"/>
+    <property name="counterKey" value="DATANODE_GC_TIME"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="3000"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="1000"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="DATANODE_MEMORY_USAGE">
+    <property name="name" value="DataNode内存使用"/>
+    <property name="description"
+      value="DataNode内存使用容量大于告警阈值"/>
+    <property name="counterKey" value="DATANODE_MEMORY_USAGE"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="20"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="18"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="SERVICE_SUB_TASK_COUNT">
+    <property name="name" value="服务子任务数量"/>
+    <property name="description"
+      value="服务子任务数量大于告警阈值"/>
+    <property name="counterKey" value="SERVICE_SUB_TASK_COUNT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="200"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="180"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="SERVICE_HANDLE_COUNT">
+    <property name="name" value="服务句柄数量"/>
+    <property name="description"
+      value="服务句柄总数大于告警阈值"/>
+    <property name="counterKey" value="SERVICE_HANDLE_COUNT"/>
+    <property name="alertLevelOne" value="MAJOR"/>
+    <property name="alertLevelOneThreshold" value="500"/>
+    <property name="relationOperator" value="GT"/>
+    <property name="continuousOccurTimes" value="3"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+    <property name="alertRecoveryThreshold" value="300"/>
+    <property name="alertRecoveryRelationOperator" value="LT"/>
+    <property name="alertRecoveryEventContinuousOccurTimes" value="3"/>
+  </bean>
+
+  <bean class="py.monitor.common.AlertRule" id="ERROR_LOG">
+    <property name="name" value="ERROR日志"/>
+    <property name="description"
+      value="Log文件中出现ERROR级别日志"/>
+    <property name="counterKey" value="ERROR_LOG"/>
+    <property name="alertLevelOne" value="MINOR"/>
+    <property name="alertTemplate" ref="defaultAlertTemplate"/>
+    <property name="alertRecoveryLevel" value="CLEARED"/>
+  </bean>
+</beans>

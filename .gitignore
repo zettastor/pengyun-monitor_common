@@ -1,0 +1,11 @@
+.classpath
+.project
+.settings
+target
+*.log
+*.log.*
+config_info
+manifest.mf
+test-output
+*.iml
+.idea
